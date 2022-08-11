@@ -14,7 +14,7 @@ FROM quay.io/ohthree/open-liberty:22.0.0.4
 ARG IMG_VERSION=1.0
 # The source control revision identifier for the packaged software.
 ARG IMG_REVISION=0.0.1-SNAPSHOT
-ARG IMG_NAME=helloworldopenshift
+ARG IMG_NAME=gitops-demo-system
 
 # See https://docs.openshift.com/container-platform/4.9/openshift_images/create-images.html#defining-image-metadata
 LABEL \
