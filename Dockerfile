@@ -17,7 +17,7 @@ LABEL \
   org.opencontainers.image.authors="ohthree@github.com" \
   org.opencontainers.image.vendor="ohthree inc" \
   org.opencontainers.image.url="https://ohthree.org/$IMG_NAME" \
-  org.opencontainers.image.source="https://othree.org/images/$IMG_NAME" \
+  org.opencontainers.image.source="https://ohthree.org/images/$IMG_NAME" \
   org.opencontainers.image.version="$IMG_VERSION" \
   org.opencontainers.image.revision="$IMG_REVISION"
 
