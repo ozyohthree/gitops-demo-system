@@ -27,8 +27,8 @@ LABEL \
 
 USER 0
 
-COPY /target/*.war /config/apps/
 COPY src/main/liberty/config/server.xml /config/
+COPY /target/*.war /config/apps/
 
 RUN  \
   chown -R 1001:0 /config && \

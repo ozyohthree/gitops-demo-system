@@ -38,8 +38,8 @@ LABEL \
 
 USER 0
 
-COPY --from=builder /tmp/app/target/*.war /config/apps/
 COPY --from=builder /tmp/app/src/main/liberty/config/server.xml /config/
+COPY --from=builder /tmp/app/target/*.war /config/apps/
 
 RUN  \
   chown -R 1001:0 /config && \
