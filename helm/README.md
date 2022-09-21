@@ -27,6 +27,9 @@ $ helm unistall nginx
 # Create a Chart
 $ helm create <chart name>
 
+# Templating
+$ helm template <chart name>
+
 ```
 # Deploy System App
 
