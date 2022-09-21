@@ -1,0 +1,18 @@
+﻿kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: {{ .Values.metadata.name }}
+  namespace: {{ .Values.metadata.namespace }}
+  labels:
+    {{- include "deploy.labels" . | nindent 4 }}
+spec:
+  to:
+    kind: Service
+    name: gitops-demo-system
+    weight: 100
+  port:
+    targetPort: 9080-tcp
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

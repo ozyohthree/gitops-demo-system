@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitops-demo-system
+  labels:
+    app.kubernetes.io/component: gitops-demo-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitops-demo-system
+      app.kubernetes.io/name: gitops-demo-system
+  template:
+    metadata:
+      labels:
+        app: gitops-demo-system
+        app.kubernetes.io/name: gitops-demo-system
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: gitops-demo-system
+          securityContext:
+            {}
+          image: "quay.io/ohthree/gitops-demo-system:1.0"
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 9080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /system/properties
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /system/properties
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          startupProbe:
+            httpGet:
+              path: /system/properties
+              port: http
+            failureThreshold: 30
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+             limits:
+               cpu: 1
+               memory: 1Gi
+             requests:
+                 cpu: 500m
+                 memory: 512Mi
