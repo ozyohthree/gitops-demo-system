@@ -7,6 +7,8 @@ WORKDIR /tmp/app
 COPY src/ src/
 COPY pom.xml pom.xml
 
+COPY .m2 .m2
+
 RUN mvn clean package
 
 FROM quay.io/ohthree/open-liberty:22.0.0.4
