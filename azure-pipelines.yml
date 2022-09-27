@@ -35,7 +35,7 @@ variables:
 - name: APP_NAME
   value: $(APP_NAME)
 - name: IMAGE_TAG
-  value: "$REGISTRY_NAME/$REGISTRY_USER/$APP_NAME:ado-v1"
+  value: "ado-v1"
 
 steps:
 - task: Docker@0
@@ -43,7 +43,7 @@ steps:
     containerregistrytype: 'Container Registry'
     action: 'Build an image'
     dockerFile: '**/Dockerfile.build'
-    imageName: '$IMAGE_TAG'
+    imageName: '$REGISTRY_NAME/$REGISTRY_USER/$APP_NAME:$IMAGE_TAG'
   
 - task: Bash@3
   name: build_and_push
@@ -51,6 +51,6 @@ steps:
     targetType: 'inline'
     script: |
       # Write your commands here      
-      echo "Image path: $IMAGE_TAG"
+      echo "Image path: $REGISTRY_NAME/$REGISTRY_USER/$APP_NAME:$IMAGE_TAG"
       docker login $REGISTRY_NAME -u $REGISTRY_USER -p $REGISTRY_PASSWORD
-      docker push "$IMAGE_TAG"
+      docker push "$REGISTRY_NAME/$REGISTRY_USER/$APP_NAME:$IMAGE_TAG"
