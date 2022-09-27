@@ -14,5 +14,5 @@ steps:
   inputs:
     containerregistrytype: 'Container Registry'
     action: 'Build an image'
-    dockerFile: '**/Dockerfile'
+    dockerFile: '**/Dockerfile.build'
     imageName: '$(Build.Repository.Name):$(Build.BuildId)'
