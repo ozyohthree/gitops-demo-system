@@ -4,15 +4,50 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-- azure-pipelines
+- none
 
 pool:
   vmImage: ubuntu-latest
 
+resources:
+- repo: self
+
+variables:
+- name: tag
+  value: '$(Build.BuildId)'
+- group: MY_PROPERTIES
+- name: DEV_NAMESPACE
+  value: dev
+- name: APP_NAME
+  value: 'gitops-demo-system'
+- name: HELM_CHART
+  value: "https://github.com/ozyohthree/gitops-demo-deploy-config/tree/main/system-app/deploy"
+- name: GIT_COMMIT
+  value: $(Build.SourceVersion)
+- name: GIT_BRANCH
+  value: $(Build.SourceBranchName)
+
 steps:
-- task: Docker@0
+# - task: Docker@0
+#   inputs:
+#     containerregistrytype: 'Container Registry'
+#     action: 'Build an image'
+#     dockerFile: '**/Dockerfile.build'
+#     imageName: '$(Build.Repository.Name):$(Build.BuildId)'
+  
+- task: Bash@3
+  name: build_and_push
+  env:
+    REGISTRY_NAME: $(REGISTRY_NAME)
+    REGISTRY_USER: $(REGISTRY_USER)
+    REGISTRY_PASSWORD: $(REGISTRY_PASSWORD)
+    APP_NAME: $(APP_NAME)
+    IMAGE_TAG: "$(FULL_IMAGE_TAG)"
   inputs:
-    containerregistrytype: 'Container Registry'
-    action: 'Build an image'
-    dockerFile: '**/Dockerfile.build'
-    imageName: '$(Build.Repository.Name):$(Build.BuildId)'
+    targetType: 'inline'
+    script: |
+      # Write your commands here      
+      echo "Image path: $REGISTRY_NAME/$APP_NAME:$IMAGE_TAG"
+      docker build . -t "$REGISTRY_NAME/$APP_NAME:$IMAGE_TAG"
+      docker login $REGISTRY_NAME -u $REGISTRY_USER -p $REGISTRY_PASSWORD
+      docker push "$REGISTRY_NAME/$APP_NAME:$IMAGE_TAG"
