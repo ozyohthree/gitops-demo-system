@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-- azurep-pipelines
+- azure-pipelines
 
 pool:
   vmImage: ubuntu-latest
@@ -43,7 +43,7 @@ steps:
     containerregistrytype: 'Container Registry'
     action: 'Build an image'
     dockerFile: '**/Dockerfile.build'
-    imageName: '$APP_NAME:$IMAGE_TAG'
+    imageName: '$IMAGE_TAG'
   
 - task: Bash@3
   name: build_and_push
@@ -51,7 +51,6 @@ steps:
     targetType: 'inline'
     script: |
       # Write your commands here      
-      echo "Image path: $REGISTRY_NAME/$REGISTRY_USER/$APP_NAME:$IMAGE_TAG"
-      docker build . -t " $REGISTRY_NAME/$REGISTRY_USER/$APP_NAME:$IMAGE_TAG"
+      echo "Image path: $IMAGE_TAG"
       docker login $REGISTRY_NAME -u $REGISTRY_USER -p $REGISTRY_PASSWORD
-      docker push "$REGISTRY_NAME/$APP_NAME:$IMAGE_TAG"
+      docker push "$IMAGE_TAG"
