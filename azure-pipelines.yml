@@ -54,3 +54,4 @@ steps:
       echo "$(QUAY_NAME) $(QUAY_USER) $(APP_NAME) $(IMAGE_TAG)"
       echo "Namespace: $(DEV_NAMESPACE)"
       echo "OCP: $(OCP_URL)"
+      docker images
