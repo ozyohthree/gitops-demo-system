@@ -27,7 +27,7 @@ variables:
 - name: GIT_BRANCH
   value: $(Build.SourceBranchName)
 - name: IMAGE_TAG
-  value: "latest"
+  value: "$(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):latest"
 
 steps:
 - task: Docker@0
@@ -35,7 +35,8 @@ steps:
     containerregistrytype: 'Container Registry'
     action: 'Build an image'
     dockerFile: '**/Dockerfile.build'
-    imageName:  '$(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):$(IMAGE_TAG)'
+    imageName: '$(IMAGE_TAG)' 
+    #'$(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):$(IMAGE_TAG)'
     #'$(Build.Repository.Name):$(Build.BuildId)'
   
 - task: Bash@3
@@ -50,5 +51,5 @@ steps:
       # echo "Namespace: $(DEV_NAMESPACE)"
       # echo "OCP: $(OCP_URL)"
       docker images
-      docker login -u="$(QUAY_USER)" -p="$(QUAY_PASS)" $(QUAY_NAME)
-      docker push $(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):$(IMAGE_TAG)
+      # docker login -u="$(QUAY_USER)" -p="$(QUAY_PASS)" $(QUAY_NAME)
+      # docker push $(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):$(IMAGE_TAG)
