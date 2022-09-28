@@ -53,4 +53,5 @@ steps:
       # Write your commands here
       echo "Ver: $(GIT_COMMIT)"
       echo "##vso[task.setvariable variable=FULL_IMAGE_TAG;]release-$(GIT_COMMIT)"
-      echo "$(REGISTRY_NAME) $(REGISTRY_USER) $(REGISTRY_PASSWORD) $(APP_NAME)"
+      echo "$(REGISTRY_NAME) $(REGISTRY_USER) $(REGISTRY_PASSWORD) $(APP_NAME) $(IMAGE_TAG)"
+      echo "Namespace: $(DEV_NAMESPACE)"
