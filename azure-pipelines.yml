@@ -43,14 +43,14 @@ steps:
     containerregistrytype: 'Container Registry'
     action: 'Build an image'
     dockerFile: '**/Dockerfile.build'
-    imageName: '$REGISTRY_NAME/$REGISTRY_USER/$APP_NAME:$IMAGE_TAG'
+    imageName: '$(Build.Repository.Name):$(Build.BuildId)'
   
 - task: Bash@3
-  name: build_and_push
+  name: set_image_tag
   inputs:
     targetType: 'inline'
     script: |
-      # Write your commands here      
-      echo "Image path: $REGISTRY_NAME/$REGISTRY_USER/$APP_NAME:$IMAGE_TAG"
-      docker login $REGISTRY_NAME -u $REGISTRY_USER -p $REGISTRY_PASSWORD
-      docker push "$REGISTRY_NAME/$REGISTRY_USER/$APP_NAME:$IMAGE_TAG"
+      # Write your commands here
+      echo "Ver: $(GIT_COMMIT)"
+      echo "##vso[task.setvariable variable=FULL_IMAGE_TAG;]release-$(GIT_COMMIT)"
+      echo "$(REGISTRY_NAME) $(REGISTRY_USER) $(REGISTRY_PASSWORD) $(APP_NAME)"
