@@ -57,5 +57,5 @@ stages:
             # echo "Namespace: $(DEV_NAMESPACE)"
             # echo "OCP: $(OCP_URL)"
             docker images
-            docker login -u="$(QUAY_USER)" -p="$(QUAY_PASS)" $(QUAY_NAME)
-            docker push $(IMAGE_TAG)
+            # docker login -u="$(QUAY_USER)" -p="$(QUAY_PASS)" $(QUAY_NAME)
+            # docker push $(IMAGE_TAG)
