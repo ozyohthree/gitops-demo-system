@@ -27,7 +27,7 @@ variables:
 - name: GIT_BRANCH
   value: $(Build.SourceBranchName)
 - name: IMAGE_TAG
-  value: "ado"
+  value: "latest"
 
 steps:
 - task: Docker@0
@@ -35,7 +35,8 @@ steps:
     containerregistrytype: 'Container Registry'
     action: 'Build an image'
     dockerFile: '**/Dockerfile.build'
-    imageName: '$(Build.Repository.Name):$(Build.BuildId)'
+    imageName:  '$(APP_NAME):$(IMAGE_TAG)'
+    #'$(Build.Repository.Name):$(Build.BuildId)'
   
 - task: Bash@3
   name: set_image_tag
