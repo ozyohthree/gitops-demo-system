@@ -15,7 +15,7 @@ public class HelloResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getGreeting() {
-        String greeting = "Hello_World";
+        String greeting = "Hello_Openshift_World";
         return greeting;
     }
 
