@@ -26,22 +26,16 @@ variables:
   value: $(Build.SourceVersion)
 - name: GIT_BRANCH
   value: $(Build.SourceBranchName)
-# - name: REGISTRY_NAME
-#   value: $(QUAY_NAME)
-# - name: REGISTRY_USER
-#   value: $(QUAY_USER)
-# - name: REGISTRY_PASSWORD
-#   value: $(QUAY_PASS)
 - name: IMAGE_TAG
   value: "ado"
 
 steps:
-# - task: Docker@0
-#   inputs:
-#     containerregistrytype: 'Container Registry'
-#     action: 'Build an image'
-#     dockerFile: '**/Dockerfile.build'
-#     imageName: '$(Build.Repository.Name):$(Build.BuildId)'
+- task: Docker@0
+  inputs:
+    containerregistrytype: 'Container Registry'
+    action: 'Build an image'
+    dockerFile: '**/Dockerfile.build'
+    imageName: '$(Build.Repository.Name):$(Build.BuildId)'
   
 - task: Bash@3
   name: set_image_tag
