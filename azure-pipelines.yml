@@ -32,8 +32,6 @@ variables:
   value: $(QUAY_USER)
 - name: REGISTRY_PASSWORD
   value: $(QUAY_PASS)
-- name: APP_NAME
-  value: $(APP_NAME)
 - name: IMAGE_TAG
   value: "ado-v1"
 
@@ -55,3 +53,4 @@ steps:
       echo "##vso[task.setvariable variable=FULL_IMAGE_TAG;]release-$(GIT_COMMIT)"
       echo "$(REGISTRY_NAME) $(REGISTRY_USER) $(REGISTRY_PASSWORD) $(APP_NAME) $(IMAGE_TAG)"
       echo "Namespace: $(DEV_NAMESPACE)"
+      echo "OCP: $(OCP_URL)"
