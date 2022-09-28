@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-- azure-pipelinesS
+- azure-pipelines
 
 pool:
   vmImage: ubuntu-latest
@@ -27,7 +27,7 @@ variables:
 - name: GIT_BRANCH
   value: $(Build.SourceBranchName)
 - name: REGISTRY_NAME
-  value: $(REGISTRY_NAME)
+  value: $(QUAY_NAME)
 - name: REGISTRY_USER
   value: $(QUAY_USER)
 - name: REGISTRY_PASSWORD
@@ -38,12 +38,12 @@ variables:
   value: "ado-v1"
 
 steps:
-- task: Docker@0
-  inputs:
-    containerregistrytype: 'Container Registry'
-    action: 'Build an image'
-    dockerFile: '**/Dockerfile.build'
-    imageName: '$(Build.Repository.Name):$(Build.BuildId)'
+# - task: Docker@0
+#   inputs:
+#     containerregistrytype: 'Container Registry'
+#     action: 'Build an image'
+#     dockerFile: '**/Dockerfile.build'
+#     imageName: '$(Build.Repository.Name):$(Build.BuildId)'
   
 - task: Bash@3
   name: set_image_tag
