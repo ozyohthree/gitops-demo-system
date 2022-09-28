@@ -11,18 +11,20 @@ resources:
 
 variables:
 - group: MY_PROPERTIES
-- name: DEV_NAMESPACE
+- name: NAMESPACE
   value: dev
 - name: APP_NAME
   value: "gitops-demo-system"
 - name: HELM_CHART
-  value: "https://github.com/ozyohthree/gitops-demo-deploy-config/tree/main/system-app/deploy"
+  value: "https://github.com/ozyohthree/gitops-demo-deploy-config/blob/main/system-app/deploy.tgz?raw=true"
 - name: GIT_COMMIT
   value: $(Build.SourceVersion)
 - name: GIT_BRANCH
   value: $(Build.SourceBranchName)
 - name: IMAGE_TAG
-  value: "$(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):latest"
+  value: "$(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME)"
+- name: TAG_VERSION
+  value: "latest"
 
 stages:
   - stage: BuildAndPushDockerImage
@@ -33,16 +35,16 @@ stages:
       pool:
         vmImage: ubuntu-latest
       steps:
-      - task: Docker@0
-        name: build_docker_image
-        displayName: 'Build Application Docker Image'
-        inputs:
-          containerregistrytype: 'Container Registry'
-          action: 'Build an image'
-          dockerFile: '**/Dockerfile.build'
-          imageName: '$(IMAGE_TAG)' 
-          #'$(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):$(IMAGE_TAG)'
-          #'$(Build.Repository.Name):$(Build.BuildId)'
+      # - task: Docker@0
+      #   name: build_docker_image
+      #   displayName: 'Build Application Docker Image'
+      #   inputs:
+      #     containerregistrytype: 'Container Registry'
+      #     action: 'Build an image'
+      #     dockerFile: '**/Dockerfile.build'
+      #     imageName: '$(IMAGE_TAG)' 
+      #     #'$(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):$(IMAGE_TAG)'
+      #     #'$(Build.Repository.Name):$(Build.BuildId)'
         
       - task: Bash@3
         name: push_image_to_registry
@@ -59,3 +61,4 @@ stages:
             docker images
             # docker login -u="$(QUAY_USER)" -p="$(QUAY_PASS)" $(QUAY_NAME)
             # docker push $(IMAGE_TAG)
+            helm template $(APP_NAME) $(HELM_CHART) --set image.repository="$REGISTRY_NAME/$IMAGE_TAG" --set image.tag="$TAG_VERSION" | kubectl apply -n "$(NAMESPACE)" --token="$(OCP_TOKEN)" -s="$(OCP_SERVER)" -f-
