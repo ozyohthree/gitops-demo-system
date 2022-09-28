@@ -35,7 +35,7 @@ steps:
     containerregistrytype: 'Container Registry'
     action: 'Build an image'
     dockerFile: '**/Dockerfile.build'
-    imageName:  '$(APP_NAME):$(IMAGE_TAG)'
+    imageName:  '$(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):$(IMAGE_TAG)'
     #'$(Build.Repository.Name):$(Build.BuildId)'
   
 - task: Bash@3
@@ -44,9 +44,9 @@ steps:
     targetType: 'inline'
     script: |
       # Write your commands here
-      echo "Ver: $(GIT_COMMIT)"
-      echo "##vso[task.setvariable variable=FULL_IMAGE_TAG;]release-$(GIT_COMMIT)"
-      echo "$(QUAY_NAME) $(QUAY_USER) $(APP_NAME) $(IMAGE_TAG)"
-      echo "Namespace: $(DEV_NAMESPACE)"
-      echo "OCP: $(OCP_URL)"
+      # echo "Ver: $(GIT_COMMIT)"
+      # echo "##vso[task.setvariable variable=FULL_IMAGE_TAG;]release-$(GIT_COMMIT)"
+      # echo "$(QUAY_NAME) $(QUAY_USER) $(APP_NAME) $(IMAGE_TAG)"
+      # echo "Namespace: $(DEV_NAMESPACE)"
+      # echo "OCP: $(OCP_URL)"
       docker images
