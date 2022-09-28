@@ -13,8 +13,6 @@ resources:
 - repo: self
 
 variables:
-- name: tag
-  value: '$(Build.BuildId)'
 - group: MY_PROPERTIES
 - name: DEV_NAMESPACE
   value: dev
@@ -31,6 +29,8 @@ variables:
 
 steps:
 - task: Docker@0
+  name: build_docker_image
+  displayName: 'Build Application Docker Image'
   inputs:
     containerregistrytype: 'Container Registry'
     action: 'Build an image'
@@ -40,7 +40,8 @@ steps:
     #'$(Build.Repository.Name):$(Build.BuildId)'
   
 - task: Bash@3
-  name: set_image_tag
+  name: push_image_to_registry
+  displayName: 'Push image to Quay registry'
   inputs:
     targetType: 'inline'
     script: |
@@ -51,5 +52,5 @@ steps:
       # echo "Namespace: $(DEV_NAMESPACE)"
       # echo "OCP: $(OCP_URL)"
       docker images
-      # docker login -u="$(QUAY_USER)" -p="$(QUAY_PASS)" $(QUAY_NAME)
-      # docker push $(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):$(IMAGE_TAG)
+      docker login -u="$(QUAY_USER)" -p="$(QUAY_PASS)" $(QUAY_NAME)
+      docker push $(IMAGE_TAG)
