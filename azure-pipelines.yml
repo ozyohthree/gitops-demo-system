@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-- azure-pipelines
+- azure-pipelinesS
 
 pool:
   vmImage: ubuntu-latest
@@ -19,7 +19,7 @@ variables:
 - name: DEV_NAMESPACE
   value: dev
 - name: APP_NAME
-  value: 'gitops-demo-system'
+  value: "gitops-demo-system"
 - name: HELM_CHART
   value: "https://github.com/ozyohthree/gitops-demo-deploy-config/tree/main/system-app/deploy"
 - name: GIT_COMMIT
