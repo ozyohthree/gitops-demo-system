@@ -26,14 +26,14 @@ variables:
   value: $(Build.SourceVersion)
 - name: GIT_BRANCH
   value: $(Build.SourceBranchName)
-- name: REGISTRY_NAME
-  value: $(QUAY_NAME)
-- name: REGISTRY_USER
-  value: $(QUAY_USER)
-- name: REGISTRY_PASSWORD
-  value: $(QUAY_PASS)
+# - name: REGISTRY_NAME
+#   value: $(QUAY_NAME)
+# - name: REGISTRY_USER
+#   value: $(QUAY_USER)
+# - name: REGISTRY_PASSWORD
+#   value: $(QUAY_PASS)
 - name: IMAGE_TAG
-  value: "ado-v1"
+  value: "ado"
 
 steps:
 # - task: Docker@0
@@ -51,6 +51,6 @@ steps:
       # Write your commands here
       echo "Ver: $(GIT_COMMIT)"
       echo "##vso[task.setvariable variable=FULL_IMAGE_TAG;]release-$(GIT_COMMIT)"
-      echo "$(REGISTRY_NAME) $(REGISTRY_USER) $(REGISTRY_PASSWORD) $(APP_NAME) $(IMAGE_TAG)"
+      echo "$(QUAY_NAME) $(QUAY_USER) $(APP_NAME) $(IMAGE_TAG)"
       echo "Namespace: $(DEV_NAMESPACE)"
       echo "OCP: $(OCP_URL)"
