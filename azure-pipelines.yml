@@ -35,16 +35,15 @@ stages:
       pool:
         vmImage: ubuntu-latest
       steps:
-      # - task: Docker@0
-      #   name: build_docker_image
-      #   displayName: 'Build Application Docker Image'
-      #   inputs:
-      #     containerregistrytype: 'Container Registry'
-      #     action: 'Build an image'
-      #     dockerFile: '**/Dockerfile.build'
-      #     imageName: '$(IMAGE_TAG)' 
-      #     #'$(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):$(IMAGE_TAG)'
-      #     #'$(Build.Repository.Name):$(Build.BuildId)'
+      - task: Docker@0
+        name: build_docker_image
+        displayName: 'Build Application Docker Image'
+        inputs:
+          containerregistrytype: 'Container Registry'
+          action: 'Build an image'
+          dockerFile: '**/Dockerfile.build'
+          imageName: '$(IMAGE_TAG)' 
+          #'$(Build.Repository.Name):$(Build.BuildId)'
         
       - task: Bash@3
         name: push_image_to_registry
@@ -61,4 +60,4 @@ stages:
             docker images
             # docker login -u="$(QUAY_USER)" -p="$(QUAY_PASS)" $(QUAY_NAME)
             # docker push $(IMAGE_TAG)
-            helm template $(APP_NAME) $(HELM_CHART) --set image.repository="$REGISTRY_NAME/$IMAGE_TAG" --set image.tag="$TAG_VERSION" | kubectl apply -n "$(NAMESPACE)" --token="$(OCP_TOKEN)" -s="$(OCP_URL)" -f-
+            # helm template $(APP_NAME) $(HELM_CHART) --set image.repository="$REGISTRY_NAME/$IMAGE_TAG" --set image.tag="$TAG_VERSION" | kubectl apply -n "$(NAMESPACE)" --token="$(OCP_TOKEN)" -s="$(OCP_URL)" -f-
