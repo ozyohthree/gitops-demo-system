@@ -21,8 +21,6 @@ variables:
   value: $(Build.SourceVersion)
 - name: GIT_BRANCH
   value: $(Build.SourceBranchName)
-- name: GIT_PATH
-  value: 'github.com/ozyohthree/gitops-demo-cicd-config.git'
 - name: TAG_VERSION
   value: $(GIT_COMMIT)
 - name: IMAGE_TAG
@@ -70,24 +68,22 @@ stages:
             #wget https://github.com/github/hub/releases/download/v2.14.2/hub-linux-amd64-2.14.2.tgz
             #tar -xvf ./hub-linux-amd64-2.14.2.tgz
             bin/hub version
-            NEW_URL=$(echo https://$GIT_USERNAME:$GIT_TOKEN@$GIT_PATH|tr -d ' \n')
-            echo "GIT NEW URL: $NEW_URL"
-            git remote set-url origin $NEW_URL
-            git config --global user.email "$GIT_USERNAME@gmail.com"
-            git config --global user.name "$GIT_USERNAME"
-            git config credential.helper 'cache --timeout=30'
+            # NEW_URL=$(echo https://$GIT_USERNAME:$GIT_TOKEN@$GIT_PATH|tr -d ' \n')
+            # echo "GIT NEW URL: $NEW_URL"
+            # git remote set-url origin $NEW_URL
+            # git config --global user.email "$GIT_USERNAME@gmail.com"
+            # git config --global user.name "$GIT_USERNAME"
+            # git config credential.helper 'cache --timeout=30'
             # mkdir ~/.config
-            cat > ~/.config/hub << EOF3
-            github.com:
-            - user: $GIT_USERNAME
-              oauth_token: $GIT_TOKEN
-              protocol: https
-            EOF3
-            cat ~/.config
-            mkdir values
-            cd values
-            git remote -v
-            git fetch
+            # cat > ~/.config/hub << EOF3
+            # github.com:
+            # - user: $GIT_USERNAME
+            #   oauth_token: $GIT_TOKEN
+            #   protocol: https
+            # EOF3
+            # cat ~/.config/hub
+            # git remote -v
+            # git fetch
             ls -al
             # git switch ocp-dev-config
             sed -i "s/tag:.*/tag: $TAG_VERSION/" ./system-app-values/values.yaml
