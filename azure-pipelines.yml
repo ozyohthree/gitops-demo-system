@@ -16,15 +16,15 @@ variables:
 - name: APP_NAME
   value: "gitops-demo-system"
 - name: HELM_CHART
-  value: "https://github.com/ozyohthree/gitops-demo-deploy-config/blob/main/system-app/deploy.tgz?raw=true"
+  value: "https://github.com/ozyohthree/gitops-demo-deploy-config/releases/download/deploy-0.1.2/deploy-0.1.2.tgz"
 - name: GIT_COMMIT
   value: $(Build.SourceVersion)
 - name: GIT_BRANCH
   value: $(Build.SourceBranchName)
-- name: IMAGE_TAG
-  value: "$(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME)"
 - name: TAG_VERSION
-  value: "latest"
+  value: $(GIT_COMMIT)
+- name: IMAGE_TAG
+  value: "$(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):$TAG_VERSION"
 
 stages:
   - stage: BuildAndPushDockerImage
@@ -35,15 +35,15 @@ stages:
       pool:
         vmImage: ubuntu-latest
       steps:
-      - task: Docker@0
-        name: build_docker_image
-        displayName: 'Build Application Docker Image'
-        inputs:
-          containerregistrytype: 'Container Registry'
-          action: 'Build an image'
-          dockerFile: '**/Dockerfile.build'
-          imageName: '$(IMAGE_TAG)' 
-          #'$(Build.Repository.Name):$(Build.BuildId)'
+      # - task: Docker@0
+      #   name: build_docker_image
+      #   displayName: 'Build Application Docker Image'
+      #   inputs:
+      #     containerregistrytype: 'Container Registry'
+      #     action: 'Build an image'
+      #     dockerFile: '**/Dockerfile.build'
+      #     imageName: '$(IMAGE_TAG)' 
+      #     #'$(Build.Repository.Name):$(Build.BuildId)'
         
       - task: Bash@3
         name: push_image_to_registry
@@ -52,12 +52,10 @@ stages:
           targetType: 'inline'
           script: |
             # Write your commands here
-            # echo "Ver: $(GIT_COMMIT)"
+            # echo "TAG_VERSION: $(GIT_COMMIT)"
             # echo "##vso[task.setvariable variable=FULL_IMAGE_TAG;]release-$(GIT_COMMIT)"
-            # echo "$(QUAY_NAME) $(QUAY_USER) $(APP_NAME) $(IMAGE_TAG)"
-            # echo "Namespace: $(DEV_NAMESPACE)"
-            # echo "OCP: $(OCP_URL)"
+            echo "$(IMAGE_TAG)"
             docker images
             # docker login -u="$(QUAY_USER)" -p="$(QUAY_PASS)" $(QUAY_NAME)
             # docker push $(IMAGE_TAG)
-            # helm template $(APP_NAME) $(HELM_CHART) --set image.repository="$REGISTRY_NAME/$IMAGE_TAG" --set image.tag="$TAG_VERSION" | kubectl apply -n "$(NAMESPACE)" --token="$(OCP_TOKEN)" -s="$(OCP_URL)" -f-
+           
