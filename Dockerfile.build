@@ -5,6 +5,7 @@ USER 0
 WORKDIR /tmp/app
 
 COPY src/ src/
+
 COPY pom.xml pom.xml
 
 RUN mvn clean package
