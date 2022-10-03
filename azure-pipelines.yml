@@ -102,7 +102,7 @@ stages:
             echo Pushing to origin "release-$TAG_VERSION"
             git push origin "release-$TAG_VERSION"
             echo "Creating Pull Request"
-            HUB_RESULT=$(bin/hub pull-request -m "release-$TAG_VERSION" -b main)
+            HUB_RESULT=$(bin/hub pull-request -m "release-$TAG_VERSION" -b azure-pipelines)
             echo "Hub Result is $HUB_RESULT"
 
   
