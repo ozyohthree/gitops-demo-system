@@ -71,19 +71,19 @@ stages:
             # NEW_URL=$(echo https://$GIT_USERNAME:$GIT_TOKEN@$GIT_PATH|tr -d ' \n')
             # echo "GIT NEW URL: $NEW_URL"
             # git remote set-url origin $NEW_URL
-            # git config --global user.email "$GIT_USERNAME@gmail.com"
-            # git config --global user.name "$GIT_USERNAME"
-            # git config credential.helper 'cache --timeout=30'
-            # mkdir ~/.config
-            # cat > ~/.config/hub << EOF3
-            # github.com:
-            # - user: $GIT_USERNAME
-            #   oauth_token: $GIT_TOKEN
-            #   protocol: https
-            # EOF3
-            # cat ~/.config/hub
-            # git remote -v
-            # git fetch
+            git config --global user.email "$GIT_USERNAME@gmail.com"
+            git config --global user.name "$GIT_USERNAME"
+            git config credential.helper 'cache --timeout=30'
+            mkdir ~/.config
+            cat > ~/.config/hub << EOF3
+            github.com:
+            - user: $GIT_USERNAME
+              oauth_token: $GIT_TOKEN
+              protocol: https
+            EOF3
+            cat ~/.config/hub
+            git remote -v
+            git fetch
             ls -al
             # git switch ocp-dev-config
             sed -i "s/tag:.*/tag: $TAG_VERSION/" ./system-app-values/values.yaml
