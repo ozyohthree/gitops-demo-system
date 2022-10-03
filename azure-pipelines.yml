@@ -27,8 +27,6 @@ variables:
   value: $(GIT_COMMIT)
 - name: IMAGE_TAG
   value: "$(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):$TAG_VERSION"
-- name: UPDATE_DEPLOYMENT
-  value: "${{ parameters.deployToDev }}"
 
 stages:
   - stage: BuildAndPushDockerImage
@@ -65,7 +63,6 @@ stages:
           
       - task: Bash@3
         name: update_dev_config
-        condition: and(succeeded(), eq(variables.UPDATE_DEPLOYMENT, 'true'))
         inputs:
           targetType: 'inline'
           script: |
