@@ -96,13 +96,13 @@ stages:
             echo "----values-pt.yaml----"
             cat system-app-values/values-pt.yaml
             echo "-------------------"
-            git branch -m "$TAG_VERSION"
+            git branch -m "release-$TAG_VERSION"
             git add .
-            git commit -m "Build Update: $TAG_VERSION"
-            echo Pushing to origin "$TAG_VERSION"
-            git push origin "$TAG_VERSION"
+            git commit -m "Build Update: release-$TAG_VERSION"
+            echo Pushing to origin "release-$TAG_VERSION"
+            git push origin "release-$TAG_VERSION"
             echo "Creating Pull Request"
-            HUB_RESULT=$(bin/hub pull-request -m "$TAG_VERSION" -b main)
+            HUB_RESULT=$(bin/hub pull-request -m "release-$TAG_VERSION" -b main)
             echo "Hub Result is $HUB_RESULT"
 
   
