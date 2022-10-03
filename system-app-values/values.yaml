@@ -8,7 +8,7 @@ image:
   repository: quay.io/ohthree/gitops-demo-system
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  tag: 2dba4a0e8316e694aa72ba8e54f72dd51a0f16bd
   containerPort: 9080
 
 imagePullSecrets: []
