@@ -85,7 +85,7 @@ stages:
             git remote -v
             git fetch
             ls -al
-            # git switch ocp-dev-config
+            git switch azure-pipelines
             sed -i "s/tag:.*/tag: $TAG_VERSION/" ./system-app-values/values.yaml
             sed -i "s/tag:.*/tag: $TAG_VERSION/" ./system-app-values/values-pt.yaml
             echo "----values.yaml----"
