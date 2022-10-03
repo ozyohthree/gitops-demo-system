@@ -102,7 +102,7 @@ stages:
             ls -al
             git switch $RELEASE_BRANCH
             sed -i "s/tag:.*/tag: $TAG_VERSION/" ./system-app-values/values.yaml
-            sed -i "s/tag:.*/tag: $TAG_VERSION/" ./system-app-values/values-pt.yaml
+            sed -i "s/tag:.*/tag: $TAG_VERSION/" ./system-app-values/values-uat.yaml
             echo "----values.yaml----"
             cat system-app-values/values.yaml
             echo "-------------------"
