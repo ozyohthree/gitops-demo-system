@@ -22,7 +22,7 @@ variables:
 - name: GIT_BRANCH
   value: $(Build.SourceBranchName)
 - name: GIT_PATH
-  value: 'https://github.com/ozyohthree/gitops-demo-cicd-config.git'
+  value: 'github.com/ozyohthree/gitops-demo-cicd-config.git'
 - name: TAG_VERSION
   value: $(GIT_COMMIT)
 - name: IMAGE_TAG
@@ -76,13 +76,14 @@ stages:
             git config --global user.email "$GIT_USERNAME@gmail.com"
             git config --global user.name "$GIT_USERNAME"
             git config credential.helper 'cache --timeout=30'
-            mkdir ~/.config
+            # mkdir ~/.config
             cat > ~/.config/hub << EOF3
             github.com:
             - user: $GIT_USERNAME
               oauth_token: $GIT_TOKEN
               protocol: https
             EOF3
+            cat ~/.config
             git remote -v
             git fetch
             ls -al
