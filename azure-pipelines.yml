@@ -22,7 +22,7 @@ variables:
 - name: GIT_BRANCH
   value: $(Build.SourceBranchName)
 - name: GIT_PATH
-  value: $(Build.Repository.Uri)
+  value: github.com/ozyohthree/gitops-demo-system.git
 - name: TAG_VERSION
   value: $(GIT_COMMIT)
 - name: IMAGE_TAG
