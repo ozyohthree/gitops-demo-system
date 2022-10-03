@@ -110,6 +110,7 @@ stages:
             cat system-app-values/values-pt.yaml
             echo "-------------------"
             git branch -m "$TAG_VERSION"
+            git pull
             git add .
             git commit -m "Build Update: $TAG_VERSION"
             echo Pushing to origin "$TAG_VERSION"
