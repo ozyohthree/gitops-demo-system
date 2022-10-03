@@ -26,7 +26,7 @@ variables:
 - name: TAG_VERSION
   value: $(GIT_COMMIT)
 - name: IMAGE_TAG
-  value: "$(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):$TAG_VERSION"
+  value: "$(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):$(TAG_VERSION)"
 
 stages:
   - stage: BuildAndPushDockerImage
