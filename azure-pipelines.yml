@@ -89,6 +89,7 @@ stages:
             cd ..
             pwd         
             git clone https://$GIT_PATH
+            cd gitops-demo-deploy-config
             NEW_URL=$(echo https://$GIT_USERNAME:$GIT_TOKEN@$GIT_PATH|tr -d ' \n')
             echo "GIT NEW URL: $NEW_URL"
             git remote set-url origin $NEW_URL 
