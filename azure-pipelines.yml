@@ -61,55 +61,52 @@ stages:
       #       # docker login -u="$(QUAY_USER)" -p="$(QUAY_PASS)" $(QUAY_NAME)
       #       # docker push $(IMAGE_TAG)
           
-      # - task: Bash@3
-      #   name: update_dev_config
-      #   inputs:
-      #     targetType: 'inline'
-      #     script: |
-      #       curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
-      #       #wget https://github.com/github/hub/releases/download/v2.14.2/hub-linux-amd64-2.14.2.tgz
-      #       #tar -xvf ./hub-linux-amd64-2.14.2.tgz
-      #       bin/hub version
-      #       NEW_URL=$(echo https://$GIT_USERNAME:$GIT_TOKEN@$GIT_PATH|tr -d ' \n')
-      #       echo "GIT NEW URL: $NEW_URL"
-      #       git remote set-url origin $NEW_URL
-      #       git config --global user.email "$GIT_USERNAME@gmail.com"
-      #       git config --global user.name "$GIT_USERNAME"
-      #       git config credential.helper 'cache --timeout=30'
-      #       # mkdir ~/.config
-      #       cat > ~/.config/hub << EOF3
-      #       github.com:
-      #       - user: $GIT_USERNAME
-      #         oauth_token: $GIT_TOKEN
-      #         protocol: https
-      #       EOF3
-      #       cat ~/.config
-      #       git remote -v
-      #       git fetch
-      #       ls -al
-      #       # git switch ocp-dev-config
-      #       sed -i "s/tag:.*/tag: $TAG_VERSION/" ./system-app-values/values.yaml
-      #       sed -i "s/tag:.*/tag: $TAG_VERSION/" ./system-app-values/values-pt.yaml
-      #       echo "----values.yaml----"
-      #       cat system-app-values/values.yaml
-      #       echo "-------------------"
-      #       echo "----values-pt.yaml----"
-      #       cat system-app-values/values-pt.yaml
-      #       echo "-------------------"
-      #       git branch -m "$TAG_VERSION"
-      #       git add .
-      #       git commit -m "Build Update: $TAG_VERSION"
-      #       echo Pushing to origin "$TAG_VERSION"
-      #       git push origin "$TAG_VERSION"
-      #       echo "Creating Pull Request"
-      #       HUB_RESULT=$(bin/hub pull-request -m "$TAG_VERSION" -b main)
-      #       echo "Hub Result is $HUB_RESULT"
-
-      - task: GitClone@2
+      - task: Bash@3
+        name: update_dev_config
         inputs:
-          RepositoryURL: 'https://github.com/ozyohthree/gitops-demo-cicd-config.git'
-          Branch: 'master'
-          FallbackBranch: 'master'
-          BaseBranch: 'master'
+          targetType: 'inline'
+          script: |
+            curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
+            #wget https://github.com/github/hub/releases/download/v2.14.2/hub-linux-amd64-2.14.2.tgz
+            #tar -xvf ./hub-linux-amd64-2.14.2.tgz
+            bin/hub version
+            NEW_URL=$(echo https://$GIT_USERNAME:$GIT_TOKEN@$GIT_PATH|tr -d ' \n')
+            echo "GIT NEW URL: $NEW_URL"
+            git remote set-url origin $NEW_URL
+            git config --global user.email "$GIT_USERNAME@gmail.com"
+            git config --global user.name "$GIT_USERNAME"
+            git config credential.helper 'cache --timeout=30'
+            # mkdir ~/.config
+            cat > ~/.config/hub << EOF3
+            github.com:
+            - user: $GIT_USERNAME
+              oauth_token: $GIT_TOKEN
+              protocol: https
+            EOF3
+            cat ~/.config
+            mkdir values
+            cd values
+            git remote -v
+            git fetch
+            ls -al
+            # git switch ocp-dev-config
+            sed -i "s/tag:.*/tag: $TAG_VERSION/" ./system-app-values/values.yaml
+            sed -i "s/tag:.*/tag: $TAG_VERSION/" ./system-app-values/values-pt.yaml
+            echo "----values.yaml----"
+            cat system-app-values/values.yaml
+            echo "-------------------"
+            echo "----values-pt.yaml----"
+            cat system-app-values/values-pt.yaml
+            echo "-------------------"
+            git branch -m "$TAG_VERSION"
+            git add .
+            git commit -m "Build Update: $TAG_VERSION"
+            echo Pushing to origin "$TAG_VERSION"
+            git push origin "$TAG_VERSION"
+            echo "Creating Pull Request"
+            HUB_RESULT=$(bin/hub pull-request -m "$TAG_VERSION" -b main)
+            echo "Hub Result is $HUB_RESULT"
+
+  
 
            
