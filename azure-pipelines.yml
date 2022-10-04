@@ -15,8 +15,6 @@ variables:
   value: dev
 - name: APP_NAME
   value: "gitops-demo-system"
-- name: HELM_CHART
-  value: "https://github.com/ozyohthree/gitops-demo-deploy-config/releases/download/deploy-0.1.2/deploy-0.1.2.tgz"
 - name: GIT_COMMIT
   value: $(Build.SourceVersion)
 - name: GIT_BRANCH
@@ -98,19 +96,15 @@ stages:
             echo "----values-pt.yaml----"
             cat system-app-values/values-uat.yaml
             echo "-------------------"
-            # git branch -m "$TAG_VERSION"
             git pull
             git add .
             git commit -m "Build Update: $TAG_VERSION"
             echo "Pushing to origin $RELEASE_BRANCH"
             git push origin "$RELEASE_BRANCH"
-            # echo "Creating Pull Request"
-            # HUB_RESULT=$(bin/hub pull-request -m "$TAG_VERSION" -b $RELEASE_BRANCH)
-            # echo "Hub Result is $HUB_RESULT"
 
 
       # - task: Bash@3
-      #   name: update_dev_config
+      #   name: update_dev_config_with_pr
       #   inputs:
       #     targetType: 'inline'
       #     script: |
