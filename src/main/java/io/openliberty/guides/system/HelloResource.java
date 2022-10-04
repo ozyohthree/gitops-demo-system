@@ -15,7 +15,7 @@ public class HelloResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getGreeting() {
-        String greeting = "Hello_ADO-Pipelines_World";
+        String greeting = "Hello_ADO_World";
         return greeting;
     }
 
