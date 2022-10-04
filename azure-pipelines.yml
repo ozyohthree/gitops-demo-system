@@ -62,7 +62,8 @@ stages:
             docker push $(IMAGE_TAG)
 
       - task: Bash@3
-        name: update_dev_config
+        name: update_deploy_configs
+        displayName: 'Update the Deployment configs with Image Tag'
         inputs:
           targetType: 'inline'
           script: |
