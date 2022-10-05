@@ -57,7 +57,7 @@ stages:
             # echo "TAG_VERSION: $(GIT_COMMIT)"
             # echo "##vso[task.setvariable variable=FULL_IMAGE_TAG;]release-$(GIT_COMMIT)"
             echo "$(IMAGE_TAG)"
-            docker images
+            docker images --digests
             docker login -u="$(QUAY_USER)" -p="$(QUAY_PASS)" $(QUAY_NAME)
             docker push $(IMAGE_TAG)
 
