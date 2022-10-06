@@ -27,6 +27,8 @@ variables:
   value: "$(QUAY_NAME)/$(QUAY_USER)/$(APP_NAME):$(TAG_VERSION)"
 - name: RELEASE_BRANCH
   value: release/1.0
+- name: GIT_LOCAL
+  value: agimei0410@dev.azure.com/agimei0410/agimei/_git/test.git
 
 stages:
   - stage: BuildAndPushDockerImage
@@ -69,6 +71,11 @@ stages:
           script: |
             # Write your commands here
             ls -al
+            cd ..
+            pwd         
+            git clone https://$GIT_LOCAL
+            ls -al
+
 
 
       # - task: Bash@3
