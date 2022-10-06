@@ -58,50 +58,60 @@ stages:
             # echo "##vso[task.setvariable variable=FULL_IMAGE_TAG;]release-$(GIT_COMMIT)"
             echo "$(IMAGE_TAG)"
             docker images --digests
-            docker login -u="$(QUAY_USER)" -p="$(QUAY_PASS)" $(QUAY_NAME)
-            docker push $(IMAGE_TAG)
-
+            # docker login -u="$(QUAY_USER)" -p="$(QUAY_PASS)" $(QUAY_NAME)
+            # docker push $(IMAGE_TAG)
+            
       - task: Bash@3
-        name: update_deploy_configs
-        displayName: 'Update the Deployment configs with Image Tag'
+        name: update_values_file_local
+        displayName: 'Push image to Quay registry'
         inputs:
           targetType: 'inline'
           script: |
-            cd ..
-            pwd         
-            git clone https://$GIT_PATH
-            cd gitops-demo-deploy-config
-            curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
-            bin/hub version
-            git config --global user.email "$GIT_USERNAME@gmail.com"
-            git config --global user.name "$GIT_USERNAME"
-            git config credential.helper 'cache --timeout=30'
-            cat > ~/.config/hub << EOF3
-            github.com:
-            - user: $GIT_USERNAME
-              oauth_token: $GIT_TOKEN
-              protocol: https
-            EOF3
-            cat ~/.config/hub
-            NEW_URL=$(echo https://$GIT_USERNAME:$GIT_TOKEN@$GIT_PATH|tr -d ' \n')
-            echo "GIT NEW URL: $NEW_URL"
-            git remote set-url origin $NEW_URL 
-            git remote -v
+            # Write your commands here
             ls -al
-            git switch $RELEASE_BRANCH
-            sed -i "s/tag:.*/tag: $TAG_VERSION/" ./system-app-values/values.yaml
-            sed -i "s/tag:.*/tag: $TAG_VERSION/" ./system-app-values/values-uat.yaml
-            echo "----values.yaml----"
-            cat system-app-values/values.yaml
-            echo "-------------------"
-            echo "----values-pt.yaml----"
-            cat system-app-values/values-uat.yaml
-            echo "-------------------"
-            git pull
-            git add .
-            git commit -m "Build Update: $TAG_VERSION"
-            echo "Pushing to origin $RELEASE_BRANCH"
-            git push origin "$RELEASE_BRANCH"
+
+
+      # - task: Bash@3
+      #   name: update_deploy_configs
+      #   displayName: 'Update the Deployment configs with Image Tag'
+      #   inputs:
+      #     targetType: 'inline'
+      #     script: |
+      #       cd ..
+      #       pwd         
+      #       git clone https://$GIT_PATH
+      #       cd gitops-demo-deploy-config
+      #       curl -fsSL https://github.com/github/hub/raw/master/script/get | bash -s 2.14.1
+      #       bin/hub version
+      #       git config --global user.email "$GIT_USERNAME@gmail.com"
+      #       git config --global user.name "$GIT_USERNAME"
+      #       git config credential.helper 'cache --timeout=30'
+      #       cat > ~/.config/hub << EOF3
+      #       github.com:
+      #       - user: $GIT_USERNAME
+      #         oauth_token: $GIT_TOKEN
+      #         protocol: https
+      #       EOF3
+      #       cat ~/.config/hub
+      #       NEW_URL=$(echo https://$GIT_USERNAME:$GIT_TOKEN@$GIT_PATH|tr -d ' \n')
+      #       echo "GIT NEW URL: $NEW_URL"
+      #       git remote set-url origin $NEW_URL 
+      #       git remote -v
+      #       ls -al
+      #       git switch $RELEASE_BRANCH
+      #       sed -i "s/tag:.*/tag: $TAG_VERSION/" ./system-app-values/values.yaml
+      #       sed -i "s/tag:.*/tag: $TAG_VERSION/" ./system-app-values/values-uat.yaml
+      #       echo "----values.yaml----"
+      #       cat system-app-values/values.yaml
+      #       echo "-------------------"
+      #       echo "----values-pt.yaml----"
+      #       cat system-app-values/values-uat.yaml
+      #       echo "-------------------"
+      #       git pull
+      #       git add .
+      #       git commit -m "Build Update: $TAG_VERSION"
+      #       echo "Pushing to origin $RELEASE_BRANCH"
+      #       git push origin "$RELEASE_BRANCH"
 
 
       # - task: Bash@3
